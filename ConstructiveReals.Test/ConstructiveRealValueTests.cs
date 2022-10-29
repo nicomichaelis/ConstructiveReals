@@ -1,3 +1,4 @@
+using System.Numerics;
 using System.Threading;
 
 namespace ConstructiveReals.Test;
@@ -70,6 +71,7 @@ public class ConstructiveRealValueTest
     [InlineData("√(2)", "1.414213562373095048801688724209698078569671875376948073176679737990732478462107038850387534327641572735013846230912297024924836055850737212644121497099935831")]
     [InlineData("pow(2, 1 / 2)", "1.414213562373095048801688724209698078569671875376948073176679737990732478462107038850387534327641572735013846230912297024924836055850737212644121497099935831")]
     [InlineData("pow(2, 2)", "4.0000")]
+    [InlineData("2^(1/2)", "1.414213562373095048801688724209698078569671875376948073176679737990732478462107038850387534327641572735013846230912297024924836055850737212644121497099935831")]
     [InlineData("e", "2.7182818284590452353602874713526624977572470936999595749669676277240766303535475945713821785251664274274663919320030599218174136")]
     [InlineData("pi", "3")]
     [InlineData("pi", "3.1")]
@@ -105,6 +107,45 @@ public class ConstructiveRealValueTest
     {
         VerifyValue(input, result);
     }
+
+    [Fact]
+    public void VerifyLongSqrt()
+    {
+        var res1 = $"1{(new string('0', 512))}.0000";
+        VerifyValue($"sqrt({BigInteger.Pow(10, 1024)})", res1);
+        VerifyValue($"sqrt(10^1024)", res1);
+    }
+
+    [Theory]
+    [InlineData("sin(0)", "0.000000000")]
+    [InlineData("cos(0)", "1.000000000")]
+    [InlineData("sin(pi)", "0.000000000")]
+    [InlineData("cos(pi)", "-1.000000000")]
+    [InlineData("sin(pi*2)", "0.000000000")]
+    [InlineData("sin(pi*3)", "0.000000000")]
+    [InlineData("sin(pi*400000)", "0.000000000")]
+    [InlineData("sin(-pi*2)", "0.000000000")]
+    [InlineData("sin(-3*pi)", "0.000000000")]
+    [InlineData("sin(-4*pi)", "0.000000000")]
+    [InlineData("sin((7/6)* pi)", "-0.500000000")]
+    [InlineData("sin(pi / 8)", "0.3826834323650897717284599840303988667613445624856270414338006356")]
+    [InlineData("sin(pi/16)", "0.1950903220161282678482848684770222409276916177519548077545020895")]
+    [InlineData("sin(pi/2)", "1.000000000")]
+    [InlineData("sin((3/2)*pi)", "-1.000000000")]
+    [InlineData("cos((3/2)*pi)", "0.000000000")]
+    [InlineData("cos(pi/3)", "0.500000")]
+    [InlineData("cos(pi/2)", "0.000000")]
+    [InlineData("cos(7390851332151606416553120876738734040134/10000000000000000000000000000000000000000)", "0.73908513321516064165531208767387340401")] //https://oeis.org/A003957
+    [InlineData("tan(0)", "0.000000")]
+    [InlineData("tan(pi / 4)", "1.000000")]
+    [InlineData("tan(pi / 12) + sqrt(3)", "2.000000000000000000000000000")]
+    [InlineData("tan(pi / 6) - sqrt(3)/3", "0.000000000000000000000000000")]
+    [InlineData("tan(pi / 3) - sqrt(3)", "0.000000000000000000000000000")]
+    public void VerifyValueTrig(string input, string result)
+    {
+        VerifyValue(input, result);
+    }
+
 
     private void VerifyValue(string input, string result)
     {

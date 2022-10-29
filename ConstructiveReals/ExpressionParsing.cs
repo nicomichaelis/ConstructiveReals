@@ -329,6 +329,18 @@ public class ConstructiveRealExpressionFactory : IExpressionFactory<Constructive
         {
             return ConstructiveRealAlgebra.Exp(parms[0]); ;
         }
+        if (value.Equals("sin", StringComparison.OrdinalIgnoreCase) && parms.Count == 1)
+        {
+            return new SinConstructiveReal(parms[0]); ;
+        }
+        if (value.Equals("cos", StringComparison.OrdinalIgnoreCase) && parms.Count == 1)
+        {
+            return new CosConstructiveReal(parms[0]); ;
+        }
+        if (value.Equals("tan", StringComparison.OrdinalIgnoreCase) && parms.Count == 1)
+        {
+            return new TanConstructiveReal(parms[0]); ;
+        }
         if (value.Equals("ln", StringComparison.OrdinalIgnoreCase) && parms.Count == 1)
         {
             return ConstructiveRealAlgebra.Ln(parms[0]); ;
