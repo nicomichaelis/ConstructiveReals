@@ -64,7 +64,7 @@ public static class ConstructiveRealAlgebra
         return new InvConstructiveReal(x);
     }
 
-    internal static ConstructiveReal Sqrt(ConstructiveReal x)
+    internal static ConstructiveReal Sqrt(this ConstructiveReal x)
     {
         if (x is ZeroConstructiveReal) return ZeroConstructiveReal.Instance;
         return new SqrtConstructiveReal(x);
@@ -78,5 +78,15 @@ public static class ConstructiveRealAlgebra
             return new PowIntConstructiveReal(pow.Op, exp * pow.Pow);
         }
         return new PowIntConstructiveReal(x, exp);
+    }
+
+    public static ConstructiveReal Exp(this ConstructiveReal x)
+    {
+        return new ExpConstructiveReal(x);
+    }
+
+    public static ConstructiveReal Ln(this ConstructiveReal x)
+    {
+        return new LnConstructiveReal(x);
     }
 }

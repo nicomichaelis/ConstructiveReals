@@ -82,6 +82,23 @@ public class ConstructiveRealValueTest
     [InlineData("exp(1 / 1000000)", "1.0000010000")]
     [InlineData("exp(1 / 1000000)", "1.0000010000005000001666667083333416666680555557539682787698440255734678130761984949528353912034582297")]
     [InlineData("exp(100)", "26881171418161354484126255515800135873611118.7737419224")]
+    [InlineData("ln(exp(2))", "2.00000000000000000000000000000000000000000000000000000000000000000000")]
+    [InlineData("ln(exp(-2))", "-2.000000000000000000000000000000000000000000000000000000000000000000")]
+    [InlineData("exp(ln(2))", "2.000000")]
+    [InlineData("ln(exp(1000))", "1000")]
+    [InlineData("exp(ln(1000))", "1000")]
+    [InlineData("ln(exp(1000))", "1000.0")]
+    [InlineData("exp(ln(1000))", "1000.0")]
+    [InlineData("ln(exp(1000))", "1000.00")]
+    [InlineData("exp(ln(1000))", "1000.00")]
+    [InlineData("ln(exp(1000))", "1000.000")]
+    [InlineData("exp(ln(1000))", "1000.000")]
+    [InlineData("ln(exp(1000))", "1000.0000")]
+    [InlineData("exp(ln(1000))", "1000.0000")]
+    [InlineData("ln(exp(1000))", "1000.000000000000000000000000000000000000")]
+    [InlineData("exp(ln(1000))", "1000.000000000000000000000000000000000000")]
+    [InlineData("ln(1/1000000)", "-13.8155105580")]
+    [InlineData("1 / exp(ln(1 / 1000000))", "1000000.00000000")]
     public void VerifyValueExtendedOperations(string input, string result)
     {
         VerifyValue(input, result);
