@@ -21,10 +21,6 @@ internal class InvConstructiveReal : ValueCachingConstructiveReal
     // Evaluates the inverse of a constructive real op.
     protected override async Task<Approximation> EvaluateInternal(int precision, ConstructiveRealEvaluationSettings es)
     {
-        VerifyPrecision(precision);
-        es.Cancel.ThrowIfCancellationRequested();
-        if (es.UseMultithreading) await Task.Yield();
-
         BigInteger result;
 
         BigInteger currentApproximation;
@@ -115,6 +111,8 @@ internal class InvConstructiveReal : ValueCachingConstructiveReal
 
 internal class DivisionByZeroConstructiveReal : ConstructiveReal
 {
+    public static DivisionByZeroConstructiveReal Instance { get; } = new DivisionByZeroConstructiveReal();
+
     public override Task<Approximation> Evaluate(int precision, ConstructiveRealEvaluationSettings es)
     {
         throw new DivideByZeroException();

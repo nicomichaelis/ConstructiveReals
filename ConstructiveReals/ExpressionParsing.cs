@@ -40,6 +40,7 @@ public class Scanner
         ['*'] = TokenType.Mul,
         ['^'] = TokenType.Pow,
         [','] = TokenType.Comma,
+        ['√'] = TokenType.Identifier,
     };
 
     public Scanner(string input)
@@ -305,9 +306,13 @@ public class ConstructiveRealExpressionFactory : IExpressionFactory<Constructive
 
     public ConstructiveReal Function(string value, List<ConstructiveReal> parms)
     {
-        if (value == "Abs" && parms.Count == 1)
+        if (value.Equals("abs", StringComparison.OrdinalIgnoreCase) && parms.Count == 1)
         {
             return ConstructiveRealAlgebra.Abs(parms[0]);
+        }
+        if (((value.Equals("sqrt", StringComparison.OrdinalIgnoreCase)) || (value == "√")) && parms.Count == 1)
+        {
+            return ConstructiveRealAlgebra.Sqrt(parms[0]);
         }
         throw new NotImplementedException();
     }

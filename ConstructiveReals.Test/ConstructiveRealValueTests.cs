@@ -62,6 +62,18 @@ public class ConstructiveRealValueTest
         VerifyValue(input, result);
     }
 
+    [Theory]
+    [InlineData("sqrt(0)", "0.0")]
+    [InlineData("sqrt(100)", "10.0000")]
+    [InlineData("sqrt(2)", "1.41421")]
+    [InlineData("sqrt(2)", "1.4142135624")]
+    [InlineData("√(2)", "1.414213562373095048801688724209698078569671875376948073176679737990732478462107038850387534327641572735013846230912297024924836055850737212644121497099935831")]
+    public void VerifyValueExtendedOperations(string input, string result)
+    {
+        VerifyValue(input, result);
+    }
+
+
     private void VerifyValue(string input, string result)
     {
         int periodIndex = result.IndexOf('.');
