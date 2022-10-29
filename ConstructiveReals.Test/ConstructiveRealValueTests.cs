@@ -141,6 +141,18 @@ public class ConstructiveRealValueTest
     [InlineData("tan(pi / 12) + sqrt(3)", "2.000000000000000000000000000")]
     [InlineData("tan(pi / 6) - sqrt(3)/3", "0.000000000000000000000000000")]
     [InlineData("tan(pi / 3) - sqrt(3)", "0.000000000000000000000000000")]
+    [InlineData("asin(0)", "0.000000000000000000000000000")]
+    [InlineData("sin(asin(1/2))", "0.500000000000000000000000000")]
+    [InlineData("sin(asin(-1/2))", "-0.500000000000000000000000000")]
+    [InlineData("asin(1/2) - pi/6", "0.000000000000000000000000000")]
+    [InlineData("asin(-1/2) + pi/6", "0.000000000000000000000000000")]
+    [InlineData("sin(asin(-1))", "-1.000000000000000000000000000")]
+    [InlineData("sin(asin(1))", "1.000000000000000000000000000")]
+    [InlineData("sin(asin(3/4))", "0.7500000000000000000000000000")]
+    [InlineData("sin(asin(-3/4))", "-0.7500000000000000000000000000")]
+    [InlineData("sin(asin(1/10))", "0.100000000000000000000000000")]
+    [InlineData("sin(asin(1/100))", "0.010000000000000000000000000")]
+    [InlineData("sin(asin(-1/100))", "-0.010000000000000000000000000")]
     public void VerifyValueTrig(string input, string result)
     {
         VerifyValue(input, result);

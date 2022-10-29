@@ -333,6 +333,10 @@ public class ConstructiveRealExpressionFactory : IExpressionFactory<Constructive
         {
             return new SinConstructiveReal(parms[0]); ;
         }
+        if (value.Equals("asin", StringComparison.OrdinalIgnoreCase) && parms.Count == 1)
+        {
+            return new AsinConstructiveReal(parms[0]); ;
+        }
         if (value.Equals("cos", StringComparison.OrdinalIgnoreCase) && parms.Count == 1)
         {
             return new CosConstructiveReal(parms[0]); ;
