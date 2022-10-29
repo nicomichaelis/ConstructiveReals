@@ -289,6 +289,13 @@ public class Parser<T>
 
 public class ConstructiveRealExpressionFactory : IExpressionFactory<ConstructiveReal>
 {
+    private EConstructiveReal Eeuler { get; }
+
+    public ConstructiveRealExpressionFactory(EConstructiveReal? e = null)
+    {
+        Eeuler = e ?? new EConstructiveReal();
+    }
+
     public ConstructiveReal Add(ConstructiveReal op1, ConstructiveReal op2)
     {
         return ConstructiveRealAlgebra.Add(op1, op2);
@@ -301,7 +308,7 @@ public class ConstructiveRealExpressionFactory : IExpressionFactory<Constructive
 
     public ConstructiveReal E()
     {
-        throw new NotImplementedException();
+        return Eeuler;
     }
 
     public ConstructiveReal Function(string value, List<ConstructiveReal> parms)
