@@ -80,6 +80,11 @@ public static class ConstructiveRealAlgebra
         return new PowIntConstructiveReal(x, exp);
     }
 
+    public static ConstructiveReal Pow(this ConstructiveReal x, ConstructiveReal exp)
+    {
+        return new PowConstructiveReal(x, exp);
+    }
+
     public static ConstructiveReal Exp(this ConstructiveReal x)
     {
         return new ExpConstructiveReal(x);

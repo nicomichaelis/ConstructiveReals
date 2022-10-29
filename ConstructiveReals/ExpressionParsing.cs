@@ -333,6 +333,10 @@ public class ConstructiveRealExpressionFactory : IExpressionFactory<Constructive
         {
             return ConstructiveRealAlgebra.Ln(parms[0]); ;
         }
+        if (value.Equals("pow", StringComparison.OrdinalIgnoreCase) && parms.Count == 2)
+        {
+            return ConstructiveRealAlgebra.Pow(parms[0], parms[1]);
+        }
         throw new NotImplementedException();
     }
 
@@ -363,7 +367,7 @@ public class ConstructiveRealExpressionFactory : IExpressionFactory<Constructive
 
     public ConstructiveReal Pow(ConstructiveReal op1, ConstructiveReal op2)
     {
-        throw new NotImplementedException();
+        return ConstructiveRealAlgebra.Pow(op1, op2);
     }
 
     public ConstructiveReal Sub(ConstructiveReal op1, ConstructiveReal op2)
