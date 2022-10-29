@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConstructiveReals;
 
-public record ConstructiveRealEvaluationSettings(CancellationToken Cancel, bool UseMultithreading, int DivisionExplosion = -1024 * 64)
+public record ConstructiveRealEvaluationSettings(CancellationToken Cancel, bool UseMultithreading, ConstructiveRealExpressionFactory Factory, int DivisionExplosion = -1024 * 64)
 {
 }
 
@@ -145,11 +145,11 @@ public abstract class ConstructiveReal
         return new ShiftedConstructiveReal(new IntegerConstructiveReal(approximation), precision).CalcString();
     }
 
-    public string CalcString()
+    private string CalcString()
     {
         using (var cts = new CancellationTokenSource())
         {
-            var es = new ConstructiveRealEvaluationSettings(cts.Token, false);
+            var es = new ConstructiveRealEvaluationSettings(cts.Token, false, new ConstructiveRealExpressionFactory());
             cts.CancelAfter(250);
             try
             {

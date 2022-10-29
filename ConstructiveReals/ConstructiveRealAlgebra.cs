@@ -69,4 +69,14 @@ public static class ConstructiveRealAlgebra
         if (x is ZeroConstructiveReal) return ZeroConstructiveReal.Instance;
         return new SqrtConstructiveReal(x);
     }
+
+    public static ConstructiveReal Pow(this ConstructiveReal x, long exp)
+    {
+        if (x is ZeroConstructiveReal && exp >= 0) return ZeroConstructiveReal.Instance;
+        if (x is PowIntConstructiveReal pow)
+        {
+            return new PowIntConstructiveReal(pow.Op, exp * pow.Pow);
+        }
+        return new PowIntConstructiveReal(x, exp);
+    }
 }

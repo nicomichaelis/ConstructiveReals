@@ -290,11 +290,13 @@ public class Parser<T>
 public class ConstructiveRealExpressionFactory : IExpressionFactory<ConstructiveReal>
 {
     private EConstructiveReal Eeuler { get; }
+    private ConstructiveReal EeulerInv { get; }
     private PiConstructiveReal ConstPi { get; }
 
     public ConstructiveRealExpressionFactory(EConstructiveReal? e = null, PiConstructiveReal? pi = null)
     {
         Eeuler = e ?? new EConstructiveReal();
+        EeulerInv = Eeuler.Inverse();
         ConstPi = pi ?? new PiConstructiveReal();
     }
 
@@ -322,6 +324,10 @@ public class ConstructiveRealExpressionFactory : IExpressionFactory<Constructive
         if (((value.Equals("sqrt", StringComparison.OrdinalIgnoreCase)) || (value == "√")) && parms.Count == 1)
         {
             return ConstructiveRealAlgebra.Sqrt(parms[0]);
+        }
+        if (value.Equals("exp", StringComparison.OrdinalIgnoreCase) && parms.Count == 1)
+        {
+            return new ExpConstructiveReal(parms[0]); ;
         }
         throw new NotImplementedException();
     }
@@ -359,5 +365,10 @@ public class ConstructiveRealExpressionFactory : IExpressionFactory<Constructive
     public ConstructiveReal Sub(ConstructiveReal op1, ConstructiveReal op2)
     {
         return ConstructiveRealAlgebra.Add(op1, ConstructiveRealAlgebra.Negate(op2));
+    }
+
+    public ConstructiveReal EInv()
+    {
+        return EeulerInv;
     }
 }
