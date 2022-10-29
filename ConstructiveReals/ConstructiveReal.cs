@@ -29,6 +29,11 @@ public record Approximation(BigInteger Value, int Precision)
             }
         }
     }
+
+    public override string ToString()
+    {
+        return ConstructiveReal.ApproximationToDebugString(Value, Precision);
+    }
 }
 
 // Represents a constructive real number. A constructive real number is a computable function.

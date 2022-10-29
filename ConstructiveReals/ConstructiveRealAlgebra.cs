@@ -56,4 +56,11 @@ public static class ConstructiveRealAlgebra
         if (x is ZeroConstructiveReal) return ZeroConstructiveReal.Instance;
         return new AbsConstructiveReal(x);
     }
+
+    public static ConstructiveReal Inverse(this ConstructiveReal x)
+    {
+        if (x is ZeroConstructiveReal) return new DivisionByZeroConstructiveReal();
+        if (x is InvConstructiveReal inv) return inv.Op;
+        return new InvConstructiveReal(x);
+    }
 }

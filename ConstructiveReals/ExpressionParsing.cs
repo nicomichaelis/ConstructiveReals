@@ -295,7 +295,7 @@ public class ConstructiveRealExpressionFactory : IExpressionFactory<Constructive
 
     public ConstructiveReal Div(ConstructiveReal op1, ConstructiveReal op2)
     {
-        throw new NotImplementedException();
+        return ConstructiveRealAlgebra.Multiply(op1, ConstructiveRealAlgebra.Inverse(op2));
     }
 
     public ConstructiveReal E()
