@@ -239,7 +239,7 @@ public class Parser<T>
         {
             factor = Factory.Pi();
         }
-        else if (t.Value == "e")
+        else if (t.Value.Equals("e", StringComparison.OrdinalIgnoreCase))
         {
             factor = Factory.E();
         }
@@ -290,10 +290,12 @@ public class Parser<T>
 public class ConstructiveRealExpressionFactory : IExpressionFactory<ConstructiveReal>
 {
     private EConstructiveReal Eeuler { get; }
+    private PiConstructiveReal ConstPi { get; }
 
-    public ConstructiveRealExpressionFactory(EConstructiveReal? e = null)
+    public ConstructiveRealExpressionFactory(EConstructiveReal? e = null, PiConstructiveReal? pi = null)
     {
         Eeuler = e ?? new EConstructiveReal();
+        ConstPi = pi ?? new PiConstructiveReal();
     }
 
     public ConstructiveReal Add(ConstructiveReal op1, ConstructiveReal op2)
@@ -346,7 +348,7 @@ public class ConstructiveRealExpressionFactory : IExpressionFactory<Constructive
 
     public ConstructiveReal Pi()
     {
-        throw new NotImplementedException();
+        return ConstPi;
     }
 
     public ConstructiveReal Pow(ConstructiveReal op1, ConstructiveReal op2)
