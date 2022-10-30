@@ -10,6 +10,7 @@ namespace ConstructiveReals;
 public enum TokenType
 {
     Integer,
+    Float,
     Identifier,
     Unknown,
     OpenParen,
@@ -113,15 +114,38 @@ public class Scanner
     private Token ReadInteger(ref int ch, ref int offset, StringReader reader, StringBuilder builder)
     {
         int startoffset = offset;
-
-        while (ch >= '0' & ch <= '9')
+        TokenType type = TokenType.Integer;
+        ReadInteger(ref ch, ref offset, reader, builder);
+        if (ch == '.')
         {
+            type = TokenType.Float;
             builder.Append((char)ch);
             Read(ref ch, ref offset, reader);
+            ReadInteger(ref ch, ref offset, reader, builder);
         }
-        TokenType type = TokenType.Integer;
-
+        if (ch == 'E' || ch == 'e')
+        {
+            type = TokenType.Float;
+            builder.Append((char)ch);
+            Read(ref ch, ref offset, reader);
+            if (ch == '+' || ch == '-')
+            {
+                builder.Append((char)ch);
+                Read(ref ch, ref offset, reader);
+            }
+            if (!(ch >= '0' & ch <= '9')) type = TokenType.Unknown;
+            ReadInteger(ref ch, ref offset, reader, builder);
+        }
         return new Token(startoffset, builder.ToString(), type);
+
+        void ReadInteger(ref int ch, ref int offset, StringReader reader, StringBuilder builder)
+        {
+            while (ch >= '0' & ch <= '9')
+            {
+                builder.Append((char)ch);
+                Read(ref ch, ref offset, reader);
+            }
+        }
     }
 
     private void Read(ref int ch, ref int offset, StringReader reader)
@@ -145,6 +169,7 @@ public interface IExpressionFactory<T>
     T Div(T op1, T op2);
     T Pow(T op1, T op2);
     T Integer(string value);
+    T Float(string value);
     T Pi();
     T E();
     T Function(string value, List<T> parms);
@@ -207,11 +232,15 @@ public class Parser<T>
     private T Factor(Scanner scan)
     {
         Token t = scan.Current;
-        Expect(scan, TokenType.Integer, TokenType.Identifier, TokenType.OpenParen);
+        Expect(scan, TokenType.Integer, TokenType.Float, TokenType.Identifier, TokenType.OpenParen);
         T factor;
         if (t.Type == TokenType.Integer)
         {
             factor = Factory.Integer(t.Value);
+        }
+        else if (t.Type == TokenType.Float)
+        {
+            factor = Factory.Float(t.Value);
         }
         else if (t.Type == TokenType.Identifier)
         {
@@ -372,6 +401,46 @@ public class ConstructiveRealExpressionFactory : IExpressionFactory<Constructive
             return new ZeroConstructiveReal();
         }
         return new IntegerConstructiveReal(bigInteger);
+    }
+
+    private static System.Text.RegularExpressions.Regex _floatRegex = new(@"^(?<integral>[0-9]+)(\.(?<fractional>[0-9]*))?([eE](?<exp>[+-]?[0-9]+))?$", System.Text.RegularExpressions.RegexOptions.ExplicitCapture);
+    public ConstructiveReal Float(string value)
+    {
+        var m = _floatRegex.Match(value);
+        if (!m.Success) throw new NotImplementedException();
+        var integral = BigInteger.Parse(m.Groups["integral"].Value, System.Globalization.CultureInfo.InvariantCulture);
+        long E = 0;
+        var frac = m.Groups["fractional"].Value;
+        if (frac != "")
+        {
+            int i = frac.Length;
+            E = -i;
+            while (i > 0)
+            {
+                if (i >= 6)
+                {
+                    integral = integral * 1000000; i = i - 6;
+                }
+                else if (i >= 3)
+                {
+                    integral = integral * 1000; i = i - 3;
+                }
+                else
+                {
+                    integral = integral * 10; i = i - 1;
+                }
+            }
+            integral = integral + BigInteger.Parse(frac, System.Globalization.CultureInfo.InvariantCulture);
+        }
+        if (integral.IsZero) return ZeroConstructiveReal.Instance;
+
+        var exp = m.Groups["exp"].Value;
+        if (exp != "")
+        {
+            E = E + long.Parse(exp, System.Globalization.CultureInfo.InvariantCulture);
+        }
+        if (E == 0) return new IntegerConstructiveReal(integral);
+        return new IntegerConstructiveReal(integral).Multiply(new IntegerConstructiveReal(10).Pow(E));
     }
 
     public ConstructiveReal Mul(ConstructiveReal op1, ConstructiveReal op2)
