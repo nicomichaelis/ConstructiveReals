@@ -1,4 +1,3 @@
-using System.Numerics;
 using System.Threading.Tasks;
 
 namespace ConstructiveReals;

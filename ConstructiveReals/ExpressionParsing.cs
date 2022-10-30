@@ -349,6 +349,10 @@ public class ConstructiveRealExpressionFactory : IExpressionFactory<Constructive
         {
             return new TanConstructiveReal(parms[0]); ;
         }
+        if (value.Equals("atan", StringComparison.OrdinalIgnoreCase) && parms.Count == 1)
+        {
+            return new AtanConstructiveReal(parms[0]); ;
+        }
         if (value.Equals("ln", StringComparison.OrdinalIgnoreCase) && parms.Count == 1)
         {
             return ConstructiveRealAlgebra.Ln(parms[0]); ;
