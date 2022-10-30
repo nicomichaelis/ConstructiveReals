@@ -206,7 +206,7 @@ public class Parser<T>
             {
                 TokenType.Plus => Factory.Add(expr, term),
                 TokenType.Minus => Factory.Sub(expr, term),
-                _ => throw new NotSupportedException()
+                _ => throw new SyntaxException("Not supported")
             };
         }
         return expr;
@@ -223,7 +223,7 @@ public class Parser<T>
             {
                 TokenType.Mul => Factory.Mul(term, factor),
                 TokenType.Div => Factory.Div(term, factor),
-                _ => throw new NotSupportedException()
+                _ => throw new SyntaxException("Not supported")
             };
         }
         return term;
@@ -251,7 +251,7 @@ public class Parser<T>
             factor = SimpleExpression(scan);
             Expect(scan, TokenType.CloseParen);
         }
-        else throw new NotImplementedException();
+        else throw new SyntaxException("Not supported");
 
         if (ExpectOptional(scan, TokenType.Pow) != null)
         {
@@ -293,7 +293,7 @@ public class Parser<T>
 
     private void Expect(Scanner scanner, TokenType type)
     {
-        if (scanner.Current.Type != type) throw new Exception($"{type} expected at {scanner.Current.Offset}:'{scanner.Current.Value}'");
+        if (scanner.Current.Type != type) throw new SyntaxException($"{type} expected at {scanner.Current.Offset}:'{scanner.Current.Value}'");
         scanner.Next();
     }
 
@@ -301,7 +301,7 @@ public class Parser<T>
     {
         var cur = scanner.Current;
         var curt = cur.Type;
-        if (!types.Any(z => z == curt)) throw new Exception($"{string.Join(", ", types)} expected at {scanner.Current.Offset}:'{scanner.Current.Value}'");
+        if (!types.Any(z => z == curt)) throw new SyntaxException($"{string.Join(", ", types)} expected at {scanner.Current.Offset}:'{scanner.Current.Value}'");
         scanner.Next();
         return cur;
     }
@@ -390,7 +390,7 @@ public class ConstructiveRealExpressionFactory : IExpressionFactory<Constructive
         {
             return ConstructiveRealAlgebra.Pow(parms[0], parms[1]);
         }
-        throw new NotImplementedException();
+        throw new SyntaxException($"Not supported: {value}");
     }
 
     public ConstructiveReal Integer(string value)
@@ -407,7 +407,7 @@ public class ConstructiveRealExpressionFactory : IExpressionFactory<Constructive
     public ConstructiveReal Float(string value)
     {
         var m = _floatRegex.Match(value);
-        if (!m.Success) throw new NotImplementedException();
+        if (!m.Success) throw new SyntaxException($"Float format: {value}");
         var integral = BigInteger.Parse(m.Groups["integral"].Value, System.Globalization.CultureInfo.InvariantCulture);
         long E = 0;
         var frac = m.Groups["fractional"].Value;
