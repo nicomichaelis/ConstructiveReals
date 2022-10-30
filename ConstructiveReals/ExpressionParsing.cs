@@ -315,7 +315,7 @@ public class ConstructiveRealExpressionFactory : IExpressionFactory<Constructive
         return Eeuler;
     }
 
-    public ConstructiveReal Function(string value, List<ConstructiveReal> parms)
+    public virtual ConstructiveReal Function(string value, List<ConstructiveReal> parms)
     {
         if (value.Equals("abs", StringComparison.OrdinalIgnoreCase) && parms.Count == 1)
         {
@@ -340,6 +340,10 @@ public class ConstructiveRealExpressionFactory : IExpressionFactory<Constructive
         if (value.Equals("cos", StringComparison.OrdinalIgnoreCase) && parms.Count == 1)
         {
             return new CosConstructiveReal(parms[0]); ;
+        }
+        if (value.Equals("acos", StringComparison.OrdinalIgnoreCase) && parms.Count == 1)
+        {
+            return new AcosConstructiveReal(parms[0]); ;
         }
         if (value.Equals("tan", StringComparison.OrdinalIgnoreCase) && parms.Count == 1)
         {

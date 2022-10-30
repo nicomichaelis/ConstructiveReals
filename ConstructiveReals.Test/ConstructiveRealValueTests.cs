@@ -153,6 +153,14 @@ public class ConstructiveRealValueTest
     [InlineData("sin(asin(1/10))", "0.100000000000000000000000000")]
     [InlineData("sin(asin(1/100))", "0.010000000000000000000000000")]
     [InlineData("sin(asin(-1/100))", "-0.010000000000000000000000000")]
+
+    [InlineData("cos(acos(1/2))", "0.500000000000000000000000000")]
+    [InlineData("cos(acos(-1/2))", "-0.500000000000000000000000000")]
+    [InlineData("cos(acos(-1))", "-1.000000000000000000000000000")]
+    [InlineData("cos(acos(1))", "1.000000000000000000000000000")]
+    [InlineData("cos(acos(3/4))", "0.7500000000000000000000000000")]
+    [InlineData("cos(acos(-3/4))", "-0.7500000000000000000000000000")]
+    [InlineData("cos(acos(1/10000))", "0.000100000000000000000000000")]
     public void VerifyValueTrig(string input, string result)
     {
         VerifyValue(input, result);
