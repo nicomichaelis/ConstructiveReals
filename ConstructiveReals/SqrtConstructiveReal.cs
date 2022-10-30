@@ -54,7 +54,7 @@ internal class SqrtConstructiveReal : ValueCachingConstructiveReal
             currentNomPrec = cacheData.valueNomPrec;
         }
 
-        int requiredPreciseDigits = resultMsd - precision + 32;
+        int requiredPreciseDigits = resultMsd - precision + 64;
         requiredPreciseDigits = Math.Max(requiredPreciseDigits, currentPreciseDigits);
         bool errorAccepted = false;
 

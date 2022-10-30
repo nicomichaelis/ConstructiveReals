@@ -11,7 +11,7 @@ public class PiConstructiveReal : ValueCachingConstructiveReal
         if (precision > 4) return new Approximation(BigInteger.Zero, precision);
 
         // Brent's approximation for PI - fast multiple-precision evaluation of elementary functions
-        int targetPrecision = Math.Min(-16, 4 * precision);
+        int targetPrecision = Math.Min(-64, 2 * precision);
 
         int valuePrecision = 2 * targetPrecision;
         BigInteger A = ShiftNoRounding(1, -valuePrecision);

@@ -10,7 +10,7 @@ public class EConstructiveReal : ValueCachingConstructiveReal
     {
         if (precision > 4) return Task.FromResult(new Approximation(BigInteger.Zero, precision));
 
-        int valuePrecision = Math.Min(-16, precision - 16);
+        int valuePrecision = Math.Min(-64, precision * 2);
         BigInteger ek = ShiftNoRounding(1, -valuePrecision);
         BigInteger uk = ShiftNoRounding(1, -valuePrecision);
 

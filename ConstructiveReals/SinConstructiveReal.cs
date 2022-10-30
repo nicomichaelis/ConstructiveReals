@@ -23,7 +23,7 @@ public class SinConstructiveReal : ConstructiveReal
         {
             if (precision > 4) return new Approximation(BigInteger.Zero, precision);
 
-            int valuePrecision = Math.Min(-16, precision - 16);
+            int valuePrecision = Math.Min(-64, 2 * precision);
             BigInteger xk = (await _op.Evaluate(valuePrecision, es)).Value;
             BigInteger xsq = xk * xk >> -valuePrecision;
             BigInteger ek = 0;

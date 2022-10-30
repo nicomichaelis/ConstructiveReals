@@ -46,8 +46,8 @@ namespace ConstructiveReals
             var (opWithKnownMsd, msds) = await FindMsds(precision, ops, es);
             if (opWithKnownMsd < 0) return new Approximation(0, precision);
             int otherOp = opWithKnownMsd ^ 1;
-            int opPrecision = precision - msds[otherOp] - 4;
-            int otherOpMaxPrecision = precision - msds[opWithKnownMsd] - 4; // and add a few exta bits (1/2 + 1/4 + 1/8)
+            int opPrecision = precision - msds[otherOp] - 8;
+            int otherOpMaxPrecision = precision - msds[opWithKnownMsd] - 8; // and add a few exta bits (1/2 + 1/4 + 1/8)
 
             var tApproxA = ops[opWithKnownMsd].Evaluate(opPrecision, es);
             var tApproxB = object.ReferenceEquals(ops[0], ops[1]) ? tApproxA : ops[otherOp].Evaluate(otherOpMaxPrecision, es);
@@ -101,7 +101,7 @@ namespace ConstructiveReals
                 opWithKnownMsd = _OpWithKnownMsd; // until the first msd has been found, this might very well be incorrect
             }
 
-            int halfPrecision = (precision >> 1) - 1;
+            int halfPrecision = (precision >> 1) - 8;
             // try getting the msd of at least one of the ops up to half-precision.
             opWithKnownMsd = await DetermineOpWithMsd(ops, msds, halfPrecision, es, opWithKnownMsd);
 

@@ -84,7 +84,7 @@ namespace ConstructiveReals
             {
                 VerifyPrecision(precision);
 
-                int valuePrecision = Math.Min(-32, precision - 64);
+                int valuePrecision = Math.Min(-64, precision * 2);
                 BigInteger ek = ShiftNoRounding(1, -valuePrecision);
                 BigInteger x = (await _op.Evaluate(valuePrecision, es)).Value;
                 BigInteger uk = ShiftNoRounding(1, -valuePrecision);

@@ -35,7 +35,7 @@ public class LnConstructiveReal : ConstructiveReal
                 currentApproximationValue = currentApproximation.Value;
             }
 
-            int targetPrecision = Math.Max(Math.Min(Math.Min((precision - 32) & -2, -32), currentPrecision), MinIntThatDoesNotOverflowWhenMultipliedWith8);
+            int targetPrecision = Math.Max(Math.Min(Math.Min((precision * 2), -64), currentPrecision), MinIntThatDoesNotOverflowWhenMultipliedWith8);
             bool errorAccepted;
             do
             {
